@@ -1,0 +1,4 @@
+aiogram
+uvloop
+ujson
+aiohttp[speedups]

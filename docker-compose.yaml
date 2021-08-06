@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+    wwbot:
+        image: hdcola/wangwangbot:latest
+        volumes:
+            - ".:/data"
+        env_file: 
+            - local.env

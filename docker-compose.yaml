@@ -4,5 +4,6 @@ services:
         image: hdcola/wangwangbot:latest
         volumes:
             - ".:/data"
+            - "/var/run/docker.sock:/var/run/docker.sock"
         env_file: 
             - local.env

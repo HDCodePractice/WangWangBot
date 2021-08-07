@@ -2,7 +2,7 @@ aiogram
 uvloop
 ujson
 aiohttp[speedups]
-python-dotenv
+environs
 loguru
 coloredlogs
 docker-compose

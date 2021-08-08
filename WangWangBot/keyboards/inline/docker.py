@@ -24,17 +24,19 @@ def services_button() -> tuple:
     return row_btns
 
 
-def service_button(service_name:str) -> tuple:
+def service_keyboard(service_name:str) -> types.InlineKeyboardMarkup:
     """
     单个服务的按钮
     """
     text_and_data = (
-        ("up", f"servic_up:{service_name}"),
-        ("logs", f"servic_logs:{service_name}"),
-        ("返回", f"servic_back")
+        ("up", f"servic:up:{service_name}"),
+        ("logs", f"servic:logs:{service_name}"),
+        ("返回", f"servics:back")
     )
+    keyboard_markup = types.InlineKeyboardMarkup()
     row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in text_and_data)
-    return row_btns
+    keyboard_markup.add(*row_btns)
+    return keyboard_markup
 
 def service_list_keyboard() -> types.InlineKeyboardMarkup:
     """
@@ -45,6 +47,6 @@ def service_list_keyboard() -> types.InlineKeyboardMarkup:
     keyboard_markup = types.InlineKeyboardMarkup()
     keyboard_markup.add(*services_button())
     for service in service_list:
-        row_btns = (types.InlineKeyboardButton(service.name, callback_data="service_{service.name}") for service in service_list)
+        row_btns = (types.InlineKeyboardButton(service.name, callback_data=f"services_click:{service.name}") for service in service_list)
         keyboard_markup.add(*row_btns)
     return keyboard_markup

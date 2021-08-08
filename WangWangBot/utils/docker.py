@@ -6,10 +6,13 @@ from compose.cli.command import get_project
 
 from WangWangBot.utils.utils import chdir,NEED_SUBPROCESS_SHELL
 
-async def check_dir_up(d, build=False):
+async def check_dir_up(d, service=None ,build=False):
     command = ['docker-compose', 'up', '-d']
     if build:
         command.append('--build')
+    
+    if service:
+        command.append(service)
 
     with chdir(d):
         stdout , stderr , returncode = await sync_run(*command)

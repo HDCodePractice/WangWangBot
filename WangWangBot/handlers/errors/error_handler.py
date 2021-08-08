@@ -2,7 +2,8 @@ import logging
 from aiogram.utils.exceptions import (Unauthorized, InvalidQueryID, TelegramAPIError,
                                       CantDemoteChatCreator, MessageNotModified, MessageToDeleteNotFound,
                                       MessageTextIsEmpty, RetryAfter,
-                                      CantParseEntities, MessageCantBeDeleted)
+                                      CantParseEntities, MessageCantBeDeleted,
+                                      MessageNotModified)
 
 
 from loader import dp
@@ -53,6 +54,9 @@ async def errors_handler(update, exception):
         return True
     if isinstance(exception, CantParseEntities):
         logging.exception(f'CantParseEntities: {exception} \nUpdate: {update}')
+        return True
+    if isinstance(exception, MessageNotModified):
+        logging.exception(f'MessageNotModified: {exception} \nUpdate: {update}')
         return True
     
     logging.exception(f'Update: {update} \n{exception}')

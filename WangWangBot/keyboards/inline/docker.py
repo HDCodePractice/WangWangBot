@@ -27,10 +27,14 @@ def services_button() -> tuple:
 def service_keyboard(service_name:str) -> types.InlineKeyboardMarkup:
     """
     单个服务的按钮
+
+    return: InlineKeyboardMarkup
     """
     text_and_data = (
         ("up", f"servic:up:{service_name}"),
+        ("top", f"servic:top:{service_name}"),
         ("logs", f"servic:logs:{service_name}"),
+        ("stop", f"servic:stop:{service_name}"),
         ("返回", f"servics:back")
     )
     keyboard_markup = types.InlineKeyboardMarkup()
@@ -40,8 +44,9 @@ def service_keyboard(service_name:str) -> types.InlineKeyboardMarkup:
 
 def service_list_keyboard() -> types.InlineKeyboardMarkup:
     """
-    :param service_list: list of services
-    :return: InlineKeyboardMarkup
+    得到所有service的InlineKeyboardMarkup
+
+    return: InlineKeyboardMarkup
     """
     service_list = docker.check_dir_service_list(Config.DOCKER_COMPOSE_DIR)
     keyboard_markup = types.InlineKeyboardMarkup()

@@ -1,6 +1,6 @@
 from aiogram import types, utils
 from aiogram.dispatcher.filters.builtin import CommandHelp, Regexp
-
+from aiogram.utils.markdown import quote_html
 from loader import dp
 
 from WangWangBot.utils.logger import log
@@ -47,8 +47,8 @@ async def services_answer_callback_handler(query: types.CallbackQuery):
     else:
         msg,rcode = '不知道您要做啥',1
     reply_markup = service_list_keyboard()
-    if len(str(msg)) > 2048:
-        msg = msg[-2000:]
+    if len(str(msg)) > 4096:
+        msg = msg[-4000:]
     await query.message.edit_text(f"{answer_data}:{rcode}\n{msg}",reply_markup=reply_markup)
 
 @dp.callback_query_handler(Regexp(r'^services_click:(.+)'))
@@ -73,7 +73,6 @@ async def service_answer_callback_handler(query: types.CallbackQuery):
     # 处理用户点击了service中的一个按钮
     log.info(query.data)
     action = query.data.split(':')[1]
-    log.info(action)
     service = query.data.split(f'servic:{action}:')[1]
     reply_markup = None
 
@@ -82,10 +81,22 @@ async def service_answer_callback_handler(query: types.CallbackQuery):
         if service_item.name == service:
             if action == 'up':
                 msg,rcode = await docker.check_dir_up(Config.DOCKER_COMPOSE_DIR,service_item.name)
+            elif action == 'top':
+                msg,rcode = await docker.check_dir_top(Config.DOCKER_COMPOSE_DIR,service_item.name)
+            elif action == 'logs':
+                msg,rcode = await docker.check_dir_logs(Config.DOCKER_COMPOSE_DIR,service_item.name)
+            elif action == 'stop':
+                msg,rcode = await docker.check_dir_stop(Config.DOCKER_COMPOSE_DIR,service_item.name)
             reply_markup = service_keyboard(service)
-
+    
     if not reply_markup:
         await query.answer(text="未知的服务名",show_alert=True)
         return
+    
+    if len(str(msg)) > 4096:
+        msg = msg[-4000:]
 
-    await query.message.edit_text(f"{action}:{rcode}\n{msg}",reply_markup=reply_markup)
+    await query.message.edit_text(
+        f"{action}:{rcode}\n{quote_html(msg)}",
+        reply_markup=reply_markup,
+        parse_mode=types.ParseMode.HTML)

@@ -28,8 +28,11 @@ async def check_dir_down(d):
     return stdout.decode() + stderr.decode(), returncode
 
 
-async def check_dir_stop(d):
+async def check_dir_stop(d,service=None):
     command = ['docker-compose', 'stop']
+    if service:
+        command.append(service)
+
     with chdir(d):
         stdout , stderr , returncode = await sync_run(*command)
 
@@ -51,12 +54,26 @@ async def check_dir_rm(d="."):
     return stdout.decode() + stderr.decode(), returncode
 
 
-async def check_dir_top(d="."):
+async def check_dir_top(d=".",service=None):
     command = ['docker-compose', 'top']
+    if service:
+        command.append(service)
     with chdir(d):
         stdout , stderr , returncode = await sync_run(*command)
 
-    return not not stdout.decode().strip() + stderr.decode().strip(), returncode
+    return stdout.decode().strip() + stderr.decode().strip(), returncode
+
+
+async def check_dir_logs(d=".", service=None):
+    command = ['docker-compose', 'logs', '--tail', '100']
+    if service:
+        command.append(service)
+
+    log.info(command)
+    with chdir(d):
+        stdout , stderr , returncode = await sync_run(*command)
+    return stdout.decode().strip() + stderr.decode().strip(), returncode
+
 
 async def check_dir_ps(d=".",service=None):
     """

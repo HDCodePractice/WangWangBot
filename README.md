@@ -1,5 +1,7 @@
 # WangWangBot
-汪汪Bot是一个Telegram Bot，用于帮助你管理一台服务器上的Docker运行的Bot。
+汪汪Bot是一个Telegram Bot，用于帮助你管理一台服务器上的Docker运行的Bot。这是使用视频：
+
+![bot_use](https://user-images.githubusercontent.com/1254855/129272231-41566908-e808-44bb-bead-d48108d367ab.gif)
 
 
 ## 部署说明

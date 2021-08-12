@@ -5,4 +5,3 @@ aiohttp[speedups]
 environs
 loguru
 coloredlogs
-docker-compose

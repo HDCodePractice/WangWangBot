@@ -5,6 +5,8 @@ RUN cd /
 COPY . /WangWangBot/
 RUN cd WangWangBot
 WORKDIR /WangWangBot
+RUN apt-get install -y libsodium-dev
+RUN SODIUM_INSTALL=system pip install pynacl
 RUN pip3 install -U -r requirements.txt
 WORKDIR /data
 CMD python3 /WangWangBot/main.py

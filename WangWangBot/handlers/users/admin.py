@@ -1,5 +1,5 @@
 from aiogram import types, utils
-from aiogram.dispatcher.filters.builtin import CommandHelp, Regexp
+from aiogram.dispatcher.filters.builtin import Regexp
 from aiogram.utils.markdown import quote_html
 from loader import dp
 
@@ -18,18 +18,18 @@ def get_top_services_msg():
     msg += "\n可以直接操作整个服务组合，也可以点服务名进入单个服务操作"
     return msg, reply_markup
 
-@dp.message_handler(commands=['admin'])
+@dp.message_handler(in_admins=True,commands=['admin'])
 async def admin_command(message: types.Message):
     msg, reply_markup = get_top_services_msg()
     await message.answer(msg,reply_markup=reply_markup)
 
-@dp.callback_query_handler(text="servics:back")
+@dp.callback_query_handler(text="servics:back", in_admins=True)
 async def back_to_service_list(query: types.CallbackQuery):
     # 处理用户点击回到上一级的按钮
     msg, reply_markup = get_top_services_msg()
     await query.message.edit_text(msg,reply_markup=reply_markup)
 
-@dp.callback_query_handler(Regexp(r'^services:(.+)'))
+@dp.callback_query_handler(Regexp(r'^services:(.+)'), in_admins=True)
 async def services_answer_callback_handler(query: types.CallbackQuery):
     # 处理所有的services的命令
     log.info(f"{query.data}")
@@ -51,7 +51,7 @@ async def services_answer_callback_handler(query: types.CallbackQuery):
         msg = msg[-4000:]
     await query.message.edit_text(f"{answer_data}:{rcode}\n{msg}",reply_markup=reply_markup)
 
-@dp.callback_query_handler(Regexp(r'^services_click:(.+)'))
+@dp.callback_query_handler(Regexp(r'^services_click:(.+)'), in_admins=True)
 async def services_click_answer_callback_handler(query: types.CallbackQuery):
     # 处理用户点击了一个服务名的处理 services_click:service_name
     answer_data = query.data.split('services_click:')[1]
@@ -68,7 +68,7 @@ async def services_click_answer_callback_handler(query: types.CallbackQuery):
 
     await query.message.edit_text(f"请选择对 {answer_data} 的操作",reply_markup=reply_markup)
 
-@dp.callback_query_handler(Regexp(r'^servic:(.+)'))
+@dp.callback_query_handler(Regexp(r'^servic:(.+)'), in_admins=True)
 async def service_answer_callback_handler(query: types.CallbackQuery):
     # 处理用户点击了service中的一个按钮
     log.info(query.data)

@@ -56,7 +56,7 @@ async def errors_handler(update, exception):
         logging.exception(f'CantParseEntities: {exception} \nUpdate: {update}')
         return True
     if isinstance(exception, MessageNotModified):
-        logging.exception(f'MessageNotModified: {exception} \nUpdate: {update}')
+        # logging.exception(f'MessageNotModified: {exception} \nUpdate: {update}')
         return True
     
     logging.exception(f'Update: {update} \n{exception}')

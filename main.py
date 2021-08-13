@@ -8,7 +8,6 @@ from WangWangBot.utils.logger import log
 
 from loader import dp
 
-
 async def on_startup(dispatcher: Dispatcher):
     me = await dp.bot.get_me()
     log.info(f"Starting... ID:{me.id} , Username:{me.full_name}")

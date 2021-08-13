@@ -133,3 +133,6 @@ logs/
 
 test.py
 docker-compose.yaml
+
+# VS Code settings
+.vscode/

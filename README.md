@@ -8,15 +8,24 @@
 
 准备 local.env
 
+普通版本
+
 ```
 BOT_TOKEN=你的BOT_TOKEN
 ADMINS=使用,分隔的管理员ID列表
 ```
 
+如果你使用doppler，则是
+
+```
+DOPPLER_TOKEN=
+```
+
+
 创建并运行容器
 
 ```
-docker run -d --name=wangwangbot --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/data hdcola/wangwangbot
+docker run -d --name=wangwangbot --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/data --env-file local.env hdcola/wangwangbot
 ```
 
 ### 升级
@@ -49,4 +58,14 @@ docker exec -it wangwangbot bash
 
 ```
 docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/data hdcola/wangwangbot bash
+```
+
+测试doppler环境
+
+```
+docker run --rm -it --init \
+   -e "DOPPLER_TOKEN=$(doppler configure get token --plain)" \
+   -e "DOPPLER_PROJECT=$(doppler configure get project --plain)" \
+   -e "DOPPLER_CONFIG=$(doppler configure get config --plain)" \
+   hdcola/wangwangbot
 ```

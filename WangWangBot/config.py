@@ -19,10 +19,12 @@ def get_doppler_env(token):
         "Accept": "application/json",
         "Authorization": f"Basic {token_b64}"
     }
-
-    response = requests.request("GET", url, headers=headers, params=querystring)
-    if response.status_code == 200:
-        return response.text
+    try:
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            return response.text
+    except Exception:
+        pass
     return ""
 
 env = Env()

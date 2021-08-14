@@ -1,4 +1,3 @@
-from email.policy import default
 import os
 from environs import Env
 from io import StringIO
@@ -29,11 +28,6 @@ def get_doppler_env(token):
 
 env = Env()
 env.read_env(f"{os.getcwd()}/local.env")
-
-e = os.environ
-
-def set_env_by_doppler():
-    pass
 
 doppler_token = env.str('DOPPLER_TOKEN', default='')
 

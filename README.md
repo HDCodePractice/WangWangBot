@@ -30,6 +30,8 @@ DOPPLER_TOKEN=
 docker run -d --name=wangwangbot --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`:/data --env-file local.env hdcola/wangwangbot
 ```
 
+这里的 `pwd` 目录默认是包含有 docker-compose.yml 及它会使用到的资源的目录（你也可以指定到别的目录去）。有关docker-compose相关信息，请参考 [docker-compose文档](https://docs.docker.com/compose/overview/)。
+
 ### 升级
 
 停止、移除容器

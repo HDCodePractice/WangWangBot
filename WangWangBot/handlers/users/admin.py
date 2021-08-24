@@ -9,6 +9,7 @@ from WangWangBot.utils import docker
 from WangWangBot.keyboards.inline.docker import service_list_keyboard, service_keyboard
 
 from compose.config.errors import ComposeFileNotFound
+from docker.errors import DockerException
 
 def get_top_services_msg():
     services = docker.check_dir_service_list(Config.DOCKER_COMPOSE_DIR)
@@ -26,6 +27,9 @@ async def admin_command(message: types.Message):
         await message.answer(msg,reply_markup=reply_markup)
     except ComposeFileNotFound:
         msg = "没有找到docker-compose.yml文件。请将docker-compose的配置文件放在mount到/data的目录中。"
+        await message.answer(msg)
+    except DockerException:
+        msg = "调用Docker请求出错，请确认您的Docker daemon已经启动。"
         await message.answer(msg)
     
 

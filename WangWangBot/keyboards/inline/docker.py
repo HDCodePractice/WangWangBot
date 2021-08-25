@@ -51,7 +51,6 @@ def service_list_keyboard() -> types.InlineKeyboardMarkup:
     service_list = docker.check_dir_service_list(Config.DOCKER_COMPOSE_DIR)
     keyboard_markup = types.InlineKeyboardMarkup()
     keyboard_markup.add(*services_button())
-    for service in service_list:
-        row_btns = (types.InlineKeyboardButton(service.name, callback_data=f"services_click:{service.name}") for service in service_list)
-        keyboard_markup.add(*row_btns)
+    row_btns = (types.InlineKeyboardButton(service.name, callback_data=f"services_click:{service.name}") for service in service_list)
+    keyboard_markup.add(*row_btns)
     return keyboard_markup

@@ -6,6 +6,8 @@
 
 ## 部署说明
 
+首先你需要确定你已经 [安装好Docker](https://docs.docker.com/engine/install/) 再继续后续的工作。
+
 ### 安装运行
 
 准备 local.env
